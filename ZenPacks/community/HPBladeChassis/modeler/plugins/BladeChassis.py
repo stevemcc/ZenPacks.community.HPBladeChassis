@@ -49,7 +49,8 @@ class BladeChassis(CommandPlugin):
                 if "Part Number" in key:
                     om.bcPartNumber = value
 
-                if "Serial Number" in key:
+                if "Serial Number" in key and not hasattr(om, 'bcSerialNumber'):
+                    log.debug('Encolosure Serial number is %s' % value)
                     om.bcSerialNumber = value
 
                 if "UUID" in key:

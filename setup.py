@@ -3,13 +3,13 @@
 # or saved.  Do not modify them directly here.
 # NB: PACKAGES is deprecated
 NAME = "ZenPacks.community.HPBladeChassis"
-VERSION = "1.28"
-AUTHOR = "David Nicklay and Simon Helson"
-LICENSE = "GPLv2"
+VERSION = "2.0.2"
+AUTHOR = "David Nicklay, Simon Helson and Kiarash Bodouhi"
+LICENSE = ""
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.community']
 PACKAGES = ['ZenPacks', 'ZenPacks.community', 'ZenPacks.community.HPBladeChassis']
 INSTALL_REQUIRES = []
-COMPAT_ZENOSS_VERS = '>=2.4'
+COMPAT_ZENOSS_VERS = ">=4.0"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
 ################################

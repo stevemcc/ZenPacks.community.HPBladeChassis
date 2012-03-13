@@ -6,7 +6,7 @@ from Products.ZenModel.DeviceComponent import DeviceComponent
 from Products.ZenModel.ManagedEntity import ManagedEntity
 from Products.ZenUtils.Utils import convToUnits
 
-from Products.ZenModel.ZenossSecurity import ZEN_VIEW, ZEN_CHANGE_SETTINGS
+from Products.ZenModel.ZenossSecurity import ZEN_VIEW, ZEN_CHANGE_SETTINGS, ZEN_CHANGE_DEVICE
 
 _kw = dict(mode='w')
 
@@ -40,30 +40,14 @@ class BladeChassisPsu(DeviceComponent, ManagedEntity):
     )
 
     # Screen action bindings (and tab definitions)
-    factory_type_information = (
-	{
-	    'id'             : 'BladeChassisPsu',
-	    'meta_type'      : 'Blade Chassis Psu',
-	    'description'    : 'Blade Chassis Psu Description',
-	    'icon'           : 'Device_icon.gif',
-	    'product'        : 'BladeServers',
-	    'factory'        : 'manage_addBladeServer',
-	    'immediate_view' : 'bladeserverPerformance',
-	    'actions'        :
-	    (
-		{ 'id'            : 'perf'
-		, 'name'          : 'perf'
-		, 'action'        : 'bladeserverPerformance'
-		, 'permissions'   : (ZEN_VIEW, )
-		},
-		{ 'id'            : 'templates'
-		, 'name'          : 'Templates'
-		, 'action'        : 'objTemplates'
-		, 'permissions'   : (ZEN_CHANGE_SETTINGS, )
-		},
-	    )
-	},
-    )
+    factory_type_information = ({
+        'actions': ({
+            'id': 'perfConf',
+            'name': 'Template',
+            'action': 'objTemplates',
+            'permissions': (ZEN_CHANGE_DEVICE,),
+        },),
+    },)
 
     def device(self):
 	return self.bladechassis()

@@ -1,45 +1,81 @@
-<tal:block metal:use-macro="here/templates/macros/page2">
+<tal:block tal:define="
+    tabletitle string:HP Blade Servers List;
+    tableName string:HPBladeSrvList;
+    tm here/ZenTableManager;
+    sts python:tm.setReqTableState;
+    tableState python:tm.getTableState(tableName, sortedSence='desc', sortedHeader='outputP');
+    objects python:here.ReportServer.plugin('HPBladeSrvList', tableState);
+    batch python:here.ZenTableManager.getBatch(tableName,objects,sortedHeader='bsId', sortedSence='asc');
+    exportFields python:['bsId', 'bsDisplayName', 'bsProductId', 'bsSerialNum', 'bsCPUCount', 'bsInstalledRam', 'bsIloIp'];
+    ">
+
+<!-- Make the report exportable to CSV -->
+<tal:block metal:use-macro="here/reportMacros/macros/exportableReport">
+<tal:block metal:fill-slot="report">
+
+<tal:block metal:use-macro="here/templates/macros/page1">
+<tal:block metal:fill-slot="breadCrumbPane">
+    <span metal:use-macro="here/miscmacros/macros/reportBreadCrumbsList"/>
+</tal:block>
+
 <tal:block metal:fill-slot="contentPane">
-
-<tal:block 
-    tal:define="tableName string:bladeserverList;
-    objects python:reduce(lambda x, y: x+y,map(lambda x: x.bladeservers(), here.getDmdRoot('Devices').BladeChassis.HPBladeChassis.getSubDevices()),[]);
-    tabletitle string:blade server Information;
-    batch python:here.ZenTableManager.getBatch(tableName,objects)">
 <tal:block metal:use-macro="here/zenuimacros/macros/zentable">
-
 <tal:block metal:fill-slot="zentablecontents">
-<!-- BEGIN TABLE CONTENTS -->
     <tr>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'id', 'Id')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsDisplayName','Name', 'nocase')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsProductId','Product Id')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsSerialNum','Serial #')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsCPUCount','CPUs')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsInstalledRam','RAM')"/>
-        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(tableName,'bsIloIp','ILO Ip Address')"/>
+        <!-- Define Column Headers - Clickable for Sorting -->
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsId','Id')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsDisplayName','Name')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsProductId','Product Id')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsSerialNum','Serial #')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsCPUCount','CPU Count')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsInstalledRam','Installed Ram')"/>
+
+        <th tal:replace="
+            structure python:here.ZenTableManager.getTableHeader(
+                tableName,'bsIloIp','ILO IP')"/>
     </tr>
-    <tal:block tal:repeat="gd batch">
-    <tr>
-        <td class="tablevalues" tal:content="gd/id"/>
-        <td class="tablevalues" tal:content="gd/bsDisplayName"/>
-        <td class="tablevalues" tal:content="gd/bsProductId"/>
-        <td class="tablevalues" tal:content="gd/bsSerialNum"/>
-        <td class="tablevalues" tal:content="gd/bsCPUCount"/>
-        <td class="tablevalues" tal:content="gd/bsInstalledRam"/>
-        <td class="tablevalues" tal:content="gd/bsIloIp"/>
-    </tr>
+    <tal:block tal:repeat="r batch">
+        <!-- Define Per-Row Display -->
+        <tr tal:define="odd repeat/r/odd"
+            tal:attributes="class python:test(odd,'odd','even')">
+
+           <td tal:content="r/bsId"/>
+           <td tal:content="r/bsDisplayName"/>
+           <td tal:content="r/bsProductId"/>
+           <td tal:content="r/bsSerialNum"/>
+           <td tal:content="r/bsCPUCount"/>
+           <td tal:content="r/bsInstalledRam"/>
+           <td tal:content="r/bsIloIp"/>
+        </tr>
     </tal:block>
     <tr>
-        <td colspan="8" class="tableheader" align='center'>
-        <form metal:use-macro="here/zenTableNavigation/macros/navtool"></form>
+        <!-- Update colspan to match your columns -->
+        <td colspan="4" class="tableheader" align='center'>
+        <form metal:use-macro="here/zenTableNavigation/macros/navtool"/>
         </td>
     </tr>
-<!-- END TABLE CONTENTS -->
+</tal:block>
+</tal:block>
 </tal:block>
 
 </tal:block>
 </tal:block>
-
 </tal:block>
 </tal:block>
