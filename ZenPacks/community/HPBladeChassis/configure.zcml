@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+    <adapter
+        factory=".info.BladeChassisInfo"
+        for=".BladeChassis.BladeChassis"
+        provides=".interfaces.IBladeChassisInfo"
+        />
+
+    <adapter
+        factory=".info.BladeServerInfo"
+        for=".BladeServer.BladeServer"
+        provides=".interfaces.IBladeServerInfo"
+        />
+
+    <adapter
+        factory=".info.BladeChassisFanInfo"
+        for=".BladeChassisFan.BladeChassisFan"
+        provides=".interfaces.IBladeChassisFanInfo"
+        />
+
+    <adapter
+        factory=".info.BladeChassisInterconnectInfo"
+        for=".BladeChassisInterconnect.BladeChassisInterconnect"
+        provides=".interfaces.IBladeChassisInterconnectInfo"
+        />
+
+    <adapter
+        factory=".info.BladeChassisPsuInfo"
+        for=".BladeChassisPsu.BladeChassisPsu"
+        provides=".interfaces.IBladeChassisPsuInfo"
+        />
+
+
+    <!-- Include Browser Code -->
+    <include package=".browser"/> 
+
+</configure>
+
