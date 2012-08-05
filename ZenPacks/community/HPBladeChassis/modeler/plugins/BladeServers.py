@@ -63,6 +63,11 @@ class BladeServers(CommandPlugin):
                 # We need to set a bunch of default values for "no blade here" and continue
                 om.bsDisplayName = "Empty Slot"
                 continue
+			match = re.match('^Server.Blade.Type:.Bay.Subsumed$', line.strip())
+            if match:
+                # this is to catch the slots listed as subsumed - or in other words used by full height blade servers
+                om.bsDisplayName = "Slot used by Full Height Blade"
+                continue					
             match = re.match('^Type:.((Server|Storage|Unknown).*)$',line.strip())
             if match:
                 if "Storage" in match.groups()[0]:
